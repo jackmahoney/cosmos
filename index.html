@@ -10,6 +10,7 @@
             height:600px;
             padding:0px;
             margin:0px;
+            -webkit-transform:translateZ(0);
             /*background: url('../bg.PNG');*/
         }
         #magnifier-subject{
@@ -29,10 +30,11 @@
             height:400px;
             box-sizing: border-box;
             border-radius:400px;
-            box-shadow:0px 0px 100px #666, 0px 0px 4000px 4000px rgba(0,0,0,1), inset 0px 0px 15px rgba(0,0,0,0.5);
+            box-shadow:0px 0px 0px 200px black, inset 0px 0px 15px rgba(0,0,0,0.5); /*0px 0px 100px #666, */
             border:10px solid #eee;
             position:relative;
             z-index: 99999;
+            outline: 4000px solid black;
         }
         .shift-red{
             -webkit-filter:hue-rotate(110deg) sepia(12%);

@@ -11,6 +11,8 @@
             styleElement,
             currentMode = 0,
             modes = [],
+            slides,
+            isLocked = false,
             css = 'body{cursor:none;}';
 
 
@@ -58,6 +60,7 @@
 
         function insertHTML(){
             magnifier = $($('#magnifier-template').html()).appendTo($body);
+            slides = $('.slides',magnifier);
             dimens = {w:magnifier.width(),h:magnifier.height()};
         }
 
@@ -75,6 +78,11 @@
         }
 
         function setMode(d){
+
+            if(isLocked) return;
+
+            isLocked = true;
+
             var i;
             if(arguments.length == 0 || d > 0){
                 i = currentMode + 1 < modes.length ? currentMode + 1 : 0;
@@ -82,9 +90,11 @@
             else{
                 i = currentMode > 0 ? currentMode - 1 : modes.length -1;
             }
-            $('.slides').toggleClass('rotate');
-            $('.slides').one('webkitAnimationEnd',function(){
+            slides.addClass('rotate');
+            slides.one('webkitAnimationEnd',function(){
                 modes[i].setActive();
+                slides.removeClass('rotate');
+                isLocked = false;
             })
             currentMode = i;
         }
