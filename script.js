@@ -3,29 +3,24 @@
     $(document).ready(load);
 
     function load(){
-        var magnifier,
+        var Egg = {
+                currentMode: 0,
+                isLocked: false,
+                css: 'body{cursor:none;}'
+            },
             $window = $(window),
-            $body = $('body'),
-            dimens,
-            subject,
-            styleElement,
-            currentMode = 0,
-            modes = [],
-            slides,
-            isLocked = false,
-            css = 'body{cursor:none;}';
-
+            $body = $('body');
 
         var Mode = function(name){
             this.name = name;
         };
         Mode.prototype.setActive = function(){
-            subject.attr('class','');
-            subject.addClass(this.name);
+            Egg.subject.attr('class','');
+            Egg.subject.addClass(this.name);
         };
 
         function createModes(){
-            modes = [
+            Egg.modes = [
                 new Mode('normal'),
                 new Mode('shift-red'),
                 new Mode('invert'),
@@ -55,48 +50,48 @@
 
         function wrapContent(){
             $body.html('<div id="magnifier-subject">'+$body.html()+'</div>');
-            subject = $('#magnifier-subject');
+            Egg.subject = $('#magnifier-subject');
         }
 
         function insertHTML(){
-            magnifier = $($('#magnifier-template').html()).appendTo($body);
-            slides = $('.slides',magnifier);
-            dimens = {w:magnifier.width(),h:magnifier.height()};
+            Egg.magnifier = $($('#magnifier-template').html()).appendTo($body);
+            Egg.slides = $('.slides',Egg.magnifier);
+            Egg.dimens = {w:Egg.magnifier.width(),h:Egg.magnifier.height()};
         }
 
         function injectStyles(){
-            styleElement = $('<style type="text/css">'+css+'</style>').appendTo($body);
+            Egg.styleElement = $('<style type="text/css">'+Egg.css+'</style>').appendTo($body);
         }
 
         function attachMouse(){
             $window.mousemove(function(e){
-                magnifier.css({
-                    top: e.pageY - dimens.h / 2,
-                    left: e.pageX - dimens.w / 2
+                Egg.magnifier.css({
+                    top: e.pageY - Egg.dimens.h / 2,
+                    left: e.pageX - Egg.dimens.w / 2
                 });
             });
         }
 
         function setMode(d){
 
-            if(isLocked) return;
+            if(Egg.isLocked) return;
 
-            isLocked = true;
+            Egg.isLocked = true;
 
             var i;
             if(arguments.length == 0 || d > 0){
-                i = currentMode + 1 < modes.length ? currentMode + 1 : 0;
+                i = Egg.currentMode + 1 < Egg.modes.length ? Egg.currentMode + 1 : 0;
             }
             else{
-                i = currentMode > 0 ? currentMode - 1 : modes.length -1;
+                i = Egg.currentMode > 0 ? Egg.currentMode - 1 : Egg.modes.length -1;
             }
-            slides.addClass('rotate');
-            slides.one('webkitAnimationEnd',function(){
-                modes[i].setActive();
-                slides.removeClass('rotate');
-                isLocked = false;
+            Egg.slides.addClass('rotate');
+            Egg.slides.one('webkitAnimationEnd',function(){
+                Egg.modes[i].setActive();
+                Egg.slides.removeClass('rotate');
+                Egg.isLocked = false;
             })
-            currentMode = i;
+            Egg.currentMode = i;
         }
 
     }
