@@ -24,7 +24,8 @@
                 new Mode('normal'),
                 new Mode('shift-red'),
                 new Mode('invert'),
-                new Mode('grey')
+                new Mode('grey'),
+                new Mode('predator')
             ];
         }
 

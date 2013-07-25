@@ -38,13 +38,16 @@
             outline: 4000px solid black;
         }
         .shift-red{
-            -webkit-filter:hue-rotate(110deg) sepia(12%);
+            -webkit-filter:brightness(1.2) contrast(50) hue-rotate(300deg) invert(0.1);
         }
         .invert{
-            -webkit-filter:invert(100%) contrast(120%) hue-rotate(-35deg);
+            -webkit-filter:brightness(1.2) invert(100%) contrast(120%) hue-rotate(-35deg);
         }
         .grey{
-            -webkit-filter:grayscale(98%) contrast(2000%) sepia(20%);
+            -webkit-filter:contrast(2000%) sepia(80%) grayscale(90%) blur(1px);
+        }
+        .predator{
+            -webkit-filter:contrast(3.6) grayscale(0.6) hue-rotate(240deg) saturate(3.1);
         }
         .slides{
             position:absolute;
