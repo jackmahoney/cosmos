@@ -11,21 +11,23 @@
             $window = $(window),
             $body = $('body');
 
-        var Mode = function(name){
+        var Mode = function(name, voltages){
             this.name = name;
+            this.voltages = voltages || [0];
         };
         Mode.prototype.setActive = function(){
             Egg.subject.attr('class','');
             Egg.subject.addClass(this.name);
+            setVoltages(this.voltages);
         };
 
         function createModes(){
             Egg.modes = [
-                new Mode('normal'),
-                new Mode('shift-red'),
-                new Mode('invert'),
-                new Mode('grey'),
-                new Mode('predator')
+                new Mode('normal',[0,20,13,57]),
+                new Mode('shift-red',[57,29,54,17]),
+                new Mode('invert',[23,2,34,71]),
+                new Mode('grey',[30,47,89,24]),
+                new Mode('predator',[85,37,19,38])
             ];
         }
 
@@ -54,10 +56,32 @@
             Egg.subject = $('#magnifier-subject');
         }
 
+        function resize(){
+            var css = {
+                width:$window.width(),
+                height:$window.height()
+            };
+            Egg.eggWrapper.css(css);
+            Egg.subject.css(css);
+
+        }
+
         function insertHTML(){
-            Egg.magnifier = $($('#magnifier-template').html()).appendTo($body);
+            Egg.eggWrapper = $($('#magnifier-template').html()).appendTo($body);
+            Egg.magnifier = $("#magnifier",Egg.eggWrapper);
             Egg.slides = $('.slides',Egg.magnifier);
             Egg.dimens = {w:Egg.magnifier.width(),h:Egg.magnifier.height()};
+            Egg.voltmeters = $('.needle-house',Egg.eggWrapper);
+
+            $window.resize(resize);
+            resize();
+        }
+
+        function setVoltages(volts){
+            Egg.voltmeters.each(function(i,v){
+                var setting = -45 + volts[i] / 100 * 90;
+                $(v).css('-webkit-transform','rotateZ('+setting+'deg)');
+            });
         }
 
         function injectStyles(){
